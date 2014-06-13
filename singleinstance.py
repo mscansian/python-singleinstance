@@ -127,10 +127,13 @@ class SingleInstanceServer(SocketServer.ThreadingMixIn, SocketServer.TCPServer):
         self._exit = True
         
         #Send a message to exit
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.connect((self.server_address[0], self.server_address[1]))
-        sock.send("END")
-        sock.close()
+        try:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.connect((self.server_address[0], self.server_address[1]))
+            sock.send("END")
+            sock.close()
+        except:
+            pass
 
 class SingleInstanceException(Exception):
     def __init__(self, value):
